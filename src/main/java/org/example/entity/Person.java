@@ -1,32 +1,38 @@
 package org.example.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.example.LocalDateAdapter;
+import org.example.JsonDateDeserializer;
+import org.example.JsonDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Person implements Serializable {
-	
+
 	private static final long serialVersionUID = 4744141842812083668L;
 
 	private UUID uuid;
-	
+
 	private String firstName;
-	
+
 	private String lastName;
-	
+
 	private String middleName;
-	
-    @XmlJavaTypeAdapter(LocalDateAdapter.class)
-	private LocalDate birthday;
+
+	@JsonSerialize(using = JsonDateSerializer.class,  as = Date.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class,  as = Date.class)
+	private Date birthday;
 
 	public String getFirstName() {
 		return firstName;
@@ -52,11 +58,11 @@ public class Person implements Serializable {
 		this.middleName = middleName;
 	}
 
-	public LocalDate getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(LocalDate birthday) {
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 
