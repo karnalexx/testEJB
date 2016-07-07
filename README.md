@@ -1,2 +1,2 @@
 # testEJB
-Simple REST service running in Wildfly 10
+Simple REST service running in Wildfly 8
