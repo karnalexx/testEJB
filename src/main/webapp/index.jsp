@@ -4,7 +4,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel='stylesheet' href='webjars/jquery-ui-themes/1.11.4/smoothness/jquery-ui.min.css'>
 <script src="webjars/jquery/3.0.0/jquery.min.js"></script>
+<script src="webjars/jquery-ui/1.11.4/jquery-ui.min.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(
@@ -80,7 +82,14 @@
 					        }
 					   }); 								  
 				});		
-				
+						       							       		        		       
+				$("#birthday").datepicker({
+					dateFormat: "dd.mm.yy",
+					changeMonth:true,
+		            changeYear:true,
+		           });
+				$("#birthday").datepicker('setDate', $(this).val());			
+				$("#birthday").datepicker();
 			});	
 </script>
 
@@ -132,7 +141,7 @@ table#persons {
 				type="text" name="firstName"><br> Middle Name:<br>
 			<input type="text" name="middleName"><br> Last Name:<br>
 			<input type="text" name="lastName"><br> Birthday:<br>
-			<input type="text" name="birthday"><br><br>
+			<input type="text" name="birthday" id="birthday"><br><br>
 			<button type="submit">Save</button>
 		</form>
 	</div>
