@@ -1,5 +1,5 @@
 # testEJB
-Simple REST service running in Wildfly 10
+Simple REST service with EJB running in Wildfly 10
 
 To Start the web application
 

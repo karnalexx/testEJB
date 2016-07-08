@@ -22,32 +22,30 @@
 										+ item.birthday + '</td><tr>'
 							});
 							$("#persons tbody").append(trHTML);
-							$("#persons tr").on(
-									'click',
-									function() {
-										var uuid = $(this).find('td')
-										.eq(0).html();
-										var firstName = $(this).find('td')
-												.eq(1).html();
-										var middleName = $(this).find('td').eq(
-												2).html();
-										var lastName = $(this).find('td').eq(3)
-												.html();
-										var birthday = $(this).find('td').eq(4)
+							$("#persons tr").on('click', function() {
+								var uuid = $(this).find('td')
+								.eq(0).html();
+								var firstName = $(this).find('td')
+										.eq(1).html();
+								var middleName = $(this).find('td').eq(
+										2).html();
+								var lastName = $(this).find('td').eq(3)
 										.html();
-										
-										$("#edit_form input[name='uuid']")
-										.val(uuid);
-										$("#edit_form input[name='firstName']")
-												.val(firstName);
-										$("#edit_form input[name='middleName']")
-										.val(middleName);
-										$("#edit_form input[name='lastName']")
-										.val(lastName);
-										$("#edit_form input[name='birthday']")
-										.val(birthday);
-									});
-						});
+								var birthday = $(this).find('td').eq(4)
+								.html();
+								
+								$("#edit_form input[name='uuid']")
+								.val(uuid);
+								$("#edit_form input[name='firstName']")
+										.val(firstName);
+								$("#edit_form input[name='middleName']")
+								.val(middleName);
+								$("#edit_form input[name='lastName']")
+								.val(lastName);
+								$("#edit_form input[name='birthday']")
+								.val(birthday);
+							});
+				});
 	
 		        $('#edit_form').submit(function(event) {
 		        	  event.preventDefault();							 
@@ -81,7 +79,7 @@
 					            alert('Error!');      
 					        }
 					   }); 								  
-				});		
+				});				        		     
 						       							       		        		       
 				$("#birthday").datepicker({
 					dateFormat: "dd.mm.yy",
@@ -90,7 +88,65 @@
 		           });
 				$("#birthday").datepicker('setDate', $(this).val());			
 				$("#birthday").datepicker();
-			});	
+				
+				
+				$('#add_new').on('click', function(event) {
+					  var form = $("#edit_form");					  
+					  
+					  var data = {};
+					  form.find('input').each(function(i) {
+						  var input = $(this); 
+					      data[input.attr("name")] = input.val();
+					      delete data["uuid"];
+					      delete data["undefined"]; 
+					  });
+					  							
+					    $.ajax({
+						    url: "${pageContext.request.contextPath}/rest/person/",
+					        type: "POST",
+					        data: JSON.stringify(data),
+							dataType: 'json', 
+						    contentType: 'application/json; charset=UTF-8',
+					        success: function(data, textStatus, jqXHR) 
+					        {					        	
+					        	$("#persons tr").last().after("<tr id='" + data.uuid + "'><td>"					        	
+					            + data.uuid + "</td><td>" + data.firstName + "</td><td>" + data.middleName
+					            + "</td><td>" + data.lastName + "</td><td>" + data.birthday + "</td></tr>");
+					    		
+					        	// todo: move to single function
+					        	$("#persons tr").on('click', function() {
+									var uuid = $(this).find('td')
+									.eq(0).html();
+									var firstName = $(this).find('td')
+											.eq(1).html();
+									var middleName = $(this).find('td').eq(
+											2).html();
+									var lastName = $(this).find('td').eq(3)
+											.html();
+									var birthday = $(this).find('td').eq(4)
+									.html();
+									
+									$("#edit_form input[name='uuid']")
+									.val(uuid);
+									$("#edit_form input[name='firstName']")
+											.val(firstName);
+									$("#edit_form input[name='middleName']")
+									.val(middleName);
+									$("#edit_form input[name='lastName']")
+									.val(lastName);
+									$("#edit_form input[name='birthday']")
+									.val(birthday);
+								});
+					        	
+					        },
+					        error: function(jqXHR, textStatus, errorThrown) 
+					        {
+					            alert('Error!');      
+					        }
+					   }); 								  
+				});	
+				
+			});
 </script>
 
 <style>
@@ -143,6 +199,8 @@ table#persons {
 			<input type="text" name="lastName"><br> Birthday:<br>
 			<input type="text" name="birthday" id="birthday"><br><br>
 			<button type="submit">Save</button>
+			<button type="button" id="add_new">Add New</button>
+			<button type="reset">Clear</button>
 		</form>
 	</div>
 </body>
