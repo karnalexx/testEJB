@@ -11,6 +11,11 @@
 <script type="text/javascript">
 	$(document).ready(
 			function() {
+				
+				$(':input','#edit_form')
+				 .not(':button, :submit, :reset, :hidden')
+				 .val('');				
+				
 				$.get("${pageContext.request.contextPath}/rest/person/all",
 						function(data, status) {
 							var trHTML = '';
