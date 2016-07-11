@@ -53,4 +53,8 @@ public class PersonService {
 		persons.put(person.getUuid(), person);
 		return person;
 	}
+
+	public Map<UUID, Person> getPersons() {
+		return persons;
+	}	
 }
